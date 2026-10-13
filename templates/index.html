@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TaskFlow | Task manager</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main class="container">
+    <header class="hero">
+      <p class="eyebrow">PERSONAL PRODUCTIVITY</p>
+      <h1>TaskFlow</h1>
+      <p class="subtitle">A simple place to plan, prioritise, and finish your work.</p>
+    </header>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <section class="messages" aria-live="polite">
+          {% for category, message in messages %}
+            <p class="message {{ category }}">{{ message }}</p>
+          {% endfor %}
+        </section>
+      {% endif %}
+    {% endwith %}
+
+    <section class="panel">
+      <h2>Add a task</h2>
+      <form action="{{ url_for('create_task') }}" method="post" class="task-form">
+        <label for="title">Title <span class="required">*</span></label>
+        <input id="title" name="title" maxlength="120" required placeholder="e.g. Finish networking homework">
+
+        <label for="description">Description</label>
+        <textarea id="description" name="description" rows="3" maxlength="2000" placeholder="Optional details"></textarea>
+
+        <div class="form-row">
+          <div>
+            <label for="due_date">Due date</label>
+            <input id="due_date" name="due_date" type="date">
+          </div>
+          <div>
+            <label for="priority">Priority</label>
+            <select id="priority" name="priority">
+              <option>Low</option>
+              <option selected>Medium</option>
+              <option>High</option>
+            </select>
+          </div>
+        </div>
+        <button type="submit">Add task</button>
+      </form>
+    </section>
+
+    <section class="task-section">
+      <div class="section-heading">
+        <div>
+          <h2>Your tasks</h2>
+          <p class="muted">{{ tasks|length }} shown</p>
+        </div>
+        <form method="get" action="{{ url_for('index') }}" class="filters">
+          <label class="sr-only" for="q">Search tasks</label>
+          <input id="q" name="q" value="{{ query }}" placeholder="Search tasks">
+          <label class="sr-only" for="status">Filter by status</label>
+          <select id="status" name="status">
+            <option value="all" {% if status == 'all' %}selected{% endif %}>All</option>
+            <option value="open" {% if status == 'open' %}selected{% endif %}>Open</option>
+            <option value="completed" {% if status == 'completed' %}selected{% endif %}>Completed</option>
+          </select>
+          <button type="submit" class="secondary">Filter</button>
+        </form>
+      </div>
+
+      {% if tasks %}
+        <div class="task-list">
+          {% for task in tasks %}
+            <article class="task-card {% if task.completed %}is-complete{% endif %}">
+              <div class="task-content">
+                <div class="task-title-row">
+                  <h3>{{ task.title }}</h3>
+                  <span class="priority priority-{{ task.priority|lower }}">{{ task.priority }}</span>
+                </div>
+                {% if task.description %}<p class="description">{{ task.description }}</p>{% endif %}
+                <p class="task-meta">
+                  {% if task.due_date %}Due {{ task.due_date }}{% else %}No due date{% endif %}
+                  · {% if task.completed %}Completed{% else %}Open{% endif %}
+                </p>
+              </div>
+              <div class="task-actions">
+                <form method="post" action="{{ url_for('toggle_task', task_id=task.id) }}">
+                  <button class="secondary" type="submit">{% if task.completed %}Reopen{% else %}Complete{% endif %}</button>
+                </form>
+                <form method="post" action="{{ url_for('delete_task', task_id=task.id) }}" onsubmit="return confirm('Delete this task?');">
+                  <button class="danger" type="submit">Delete</button>
+                </form>
+              </div>
+            </article>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="empty-state">
+          <h3>No tasks found</h3>
+          <p>Try a different search or add your first task above.</p>
+        </div>
+      {% endif %}
+    </section>
+
+    <footer>Built with Python, Flask, and SQLite.</footer>
+  </main>
+</body>
+</html>

@@ -1,0 +1,64 @@
+:root { color-scheme: light; --ink: #1d2939; --muted: #667085; --line: #e4e7ec; --surface: #fff; --page: #f5f7fb; --accent: #465fff; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--page); color: var(--ink); font: 16px/1.5 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+.container { width: min(920px, calc(100% - 32px)); margin: 0 auto; padding: 42px 0 24px; }
+.hero { margin-bottom: 28px; }
+.eyebrow { color: var(--accent); font-size: .75rem; font-weight: 800; letter-spacing: .12em; }
+h1 { font-size: clamp(2.2rem, 7vw, 3.5rem); letter-spacing: -.05em; margin: 0; }
+h2 { margin: 0 0 14px; font-size: 1.25rem; }
+h3 { margin: 0; font-size: 1.02rem; overflow-wrap: anywhere; }
+.subtitle, .muted, .task-meta { color: var(--muted); }
+.subtitle { margin-top: 4px; }
+.panel, .task-card, .empty-state { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; }
+.panel { padding: 24px; box-shadow: 0 4px 16px #10182808; }
+.task-form { display: grid; gap: 9px; }
+label { font-size: .9rem; font-weight: 650; }
+.required { color: #d92d20; }
+input, textarea, select { width: 100%; min-width: 0; border: 1px solid #d0d5dd; border-radius: 9px; padding: 11px 12px; font: inherit; background: #fff; color: var(--ink); }
+input:focus, textarea:focus, select:focus { outline: 3px solid #465fff2b; border-color: var(--accent); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.form-row > div { display: grid; gap: 8px; }
+button { border: 0; border-radius: 9px; padding: 10px 14px; background: var(--accent); color: white; font: inherit; font-weight: 700; cursor: pointer; }
+button:hover { filter: brightness(.95); }
+.task-form > button { margin-top: 8px; }
+.secondary { color: #344054; background: #f2f4f7; border: 1px solid var(--line); }
+.danger { color: #b42318; background: #fff1f0; border: 1px solid #fecdca; }
+.task-section { margin-top: 34px; }
+.section-heading { display: flex; align-items: end; justify-content: space-between; gap: 16px; margin-bottom: 14px; }
+.section-heading h2 { margin-bottom: 0; }
+.muted { margin: 2px 0 0; font-size: .9rem; }
+.filters { display: flex; align-items: center; gap: 8px; }
+.filters input { width: 180px; }
+.filters select { width: auto; }
+.task-list { display: grid; gap: 12px; }
+.task-card { display: flex; justify-content: space-between; gap: 18px; padding: 18px; }
+.task-content { min-width: 0; flex: 1; }
+.task-title-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.priority { border-radius: 999px; padding: 2px 9px; font-size: .75rem; font-weight: 750; }
+.priority-high { background: #fee4e2; color: #b42318; }
+.priority-medium { background: #fef0c7; color: #93370d; }
+.priority-low { background: #dcfae6; color: #067647; }
+.description { white-space: pre-wrap; overflow-wrap: anywhere; margin: 9px 0; }
+.task-meta { margin: 8px 0 0; font-size: .82rem; }
+.is-complete h3 { color: var(--muted); text-decoration: line-through; }
+.task-actions { display: flex; align-items: start; gap: 7px; }
+.task-actions form { margin: 0; }
+.task-actions button { white-space: nowrap; }
+.empty-state { text-align: center; padding: 36px 16px; }
+.empty-state p { color: var(--muted); margin-bottom: 0; }
+.messages { margin-bottom: 16px; }
+.message { border-radius: 9px; padding: 10px 13px; margin: 0 0 8px; }
+.message.success { background: #dcfae6; color: #05603a; }
+.message.error { background: #fee4e2; color: #912018; }
+footer { color: var(--muted); font-size: .85rem; text-align: center; padding: 32px 0 8px; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+@media (max-width: 650px) {
+  .container { padding-top: 24px; }
+  .panel { padding: 17px; }
+  .form-row { grid-template-columns: 1fr; }
+  .section-heading { align-items: stretch; flex-direction: column; }
+  .filters { display: grid; grid-template-columns: 1fr 1fr auto; }
+  .filters input { width: 100%; grid-column: 1 / -1; }
+  .task-card { flex-direction: column; }
+  .task-actions { flex-wrap: wrap; }
+}
